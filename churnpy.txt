@@ -1,0 +1,96 @@
+1-la nature du probleme est supervise car on une variable cible connue Exited ,le type de sortie est classification car on cherche a predire une classe et non une valreur continue 
+
+*****
+
+2- la variable age semble la plus pertinente avec 0.29 corr avec exited et on peut ajouter la colonne isactivenumber avec -0.16.
+
+3-Aucune valeur manquante dans le dataset.
+
+Présence de valeurs extrêmes, notamment pour Age, Balance, NumOfProducts, mais elles sont plausibles et proviennent de comportements réels, donc on ne les supprime pas.
+
+Pour éviter leur impact négatif sur certains modèles, on utilisera une normalisation robuste (RobustScaler).
+
+Les variables non informatives (CustomerId, RowNumber) seront supprimées.
+
+2***********************************
+1-- la variable age semble la plus pertinente avec 0.29 corr avec exited et on peut ajouter la colonne isactivenumber avec -0.16.
+
+
+2--Les variables Geography et Gender nécessitent un encodage car elles sont catégorielles, tandis que Balance
+ et EstimatedSalary doivent être normalisées en raison de leurs échelles très élevées et de leur dispersion importante.
+
+
+3-Les distributions avec hue=Exited sont les visualisations les plus informatives, car elles permettent d’observer précisément les différences de densité entre les clients quittant la banque et ceux qui restent, ce qui révèle le vrai pouvoir explicatif des variables.
+
+
+3***************************************
+1-
+-- gender est encodé en binaire car il s’agit d’une variable à deux modalités, tandis que Geography est encodé en one-hot car il s’agit d’une variable nominale sans ordre naturel.
+
+-- Geography is a nominal categorical variable without order, so One-Hot Encoding is the correct method. Label Encoding would force an artificial order (0, 1, 2), causing the model to treat “France < Spain < Germany”, which is meaningless. One-Hot Encoding allows each country to be represented independently.
+
+
+2- J’ai choisi la standardisation (StandardScaler) car les variables numériques n’ont pas la même échelle et plusieurs modèles envisagés (logistic regression, SVM, réseaux neuronaux) sont sensibles à la variance des features. StandardScaler est adapté à des données modérément distribuées et moins sensible aux outliers que MinMax.
+ 
+
+3-- il est  indispensable de séparer les données avant l’entraînement  pour Évaluer le modèle sur des données jamais vues, eviter le surapprentissage et la fuite de donnes .
+
+4----------------
+1- La régression logistique a été choisie pour sa simplicité, sa rapidité et son interprétabilité, ce qui en fait un excellent modèle de référence pour prédire le churn.
+ Le Random Forest a été choisi pour sa capacité à capturer des relations complexes et non linéaires entre les variables, et pour ses bonnes performances sur les données tabulaires.
+
+2-J’ai ajusté le paramètre C pour contrôler la régularisation et éviter le surapprentissage, ainsi que le solver afin d’optimiser la convergence pour ce dataset.
+
+👉 Random Forest :
+J’ai ajusté n_estimators pour améliorer la stabilité, max_depth et min_samples_split pour contrôler la complexité des arbres, et max_features pour augmenter la diversité et réduire la variance.
+
+3- pour la reg linear le temps d execution est 0.1 s et pour le random forrest a un temps d execution de 1.14 minutes
+
+5***********************************************************
+
+1--Non, l’accuracy n’est pas suffisante car le dataset présente un déséquilibre important entre les clients qui quittent la banque et ceux qui restent.
+
+2-- Le Random Forest est le modèle le plus performant. Il obtient le meilleur score AUC-ROC (0.858), un F1-score supérieur sur la classe churn (0.63), et une meilleure accuracy globale. Il produit également une matrice de confusion plus équilibrée, avec moins d’erreurs critiques et un meilleur compromis précision/rappel. Ces résultats montrent que le Random Forest distingue plus efficacement les churners des non-churners que la régression logistique.
+
+3--Le modèle commet davantage d’erreurs sur les clients restant (187 faux positifs) que sur les clients qui quittent (135 faux négatifs). D’un point de vue business, cela implique un coût marketing inutile, car certaines actions de rétention seront déclenchées pour des clients qui n’auraient pas churné. Cependant, les faux négatifs restent l’erreur la plus dommageable, car ils représentent des clients réellement perdus. Le modèle actuel réussit donc à limiter les pertes directes, au prix d’un effort marketing plus important.
+
+6--------------------------------------------------
+
+1-
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
